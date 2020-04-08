@@ -16,7 +16,7 @@ const SecondPage = () => {
   useEffect( () => {    
     (async function fetchData() {
       try {
-        const response = await axios.get('http://localhost:5000/api/issues/apitest');
+        const response = await axios.get('https://flask-issue-tracker.andrew-horn-portfolio.life/api/issues/apitest');
         setIssueList(response.data)
       } catch (e) {
         console.log(e)
@@ -27,7 +27,7 @@ const SecondPage = () => {
   const handlePostIssue = async (e) => {
     e.preventDefault()
     const response = await axios.post(
-      "http://localhost:5000/api/issues/apitest",
+      "https://flask-issue-tracker.andrew-horn-portfolio.life/api/issues/apitest",
       {
         issue_title: newTitle,
         issue_text: newText,
@@ -47,7 +47,7 @@ const SecondPage = () => {
   const handleClose = async (e, _id, open) => {
     e.preventDefault()
     try {
-      await axios.put('http://localhost:5000/api/issues/apitest', {
+      await axios.put('https://flask-issue-tracker.andrew-horn-portfolio.life/api/issues/apitest', {
         '_id': _id,
         'open': open
       }) 
@@ -59,7 +59,7 @@ const SecondPage = () => {
   const handleDelete = async (e, _id) => {
     e.preventDefault()
     try {
-      await axios.delete(`http://localhost:5000/api/issues/apitest?_id=${_id}`)
+      await axios.delete(`https://flask-issue-tracker.andrew-horn-portfolio.life/api/issues/apitest?_id=${_id}`)
     } catch (e) {
       console.log(e)
     }

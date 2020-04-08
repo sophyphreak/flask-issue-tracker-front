@@ -9,7 +9,7 @@ const IndexPage = () => {
   const [newCreatedBy, setNewCreatedBy] = useState("")
   const [newAssignedTo, setNewAssignedTo] = useState("")
   const [newStatusText, setNewStatusText] = useState("")
-  const [postResult, setPostResult] = useState("")
+  const [postResponse, setPostResponse] = useState("")
 
   const [updateId, setUpdateId] = useState("")
   const [updateTitle, setUpdateTitle] = useState("")
@@ -18,8 +18,10 @@ const IndexPage = () => {
   const [updateAssignedTo, setUpdateAssignedTo] = useState("")
   const [updateStatusText, setUpdateStatusText] = useState("")
   const [updateOpen, setUpdateOpen] = useState(false)
+  const [putResponse, setPutResponse] = useState("")
 
   const [deleteId, setDeleteId] = useState("")
+  const [deleteResponse, setDeleteResponse] = useState("")
 
   const handlePostIssue = async (e) => {
     e.preventDefault()
@@ -38,15 +40,41 @@ const IndexPage = () => {
     setNewCreatedBy("")
     setNewAssignedTo("")
     setNewStatusText("")
-    setPostResult(JSON.stringify(response.data))
+    setPostResponse(JSON.stringify(response.data))
   }
 
   const handlePutIssue = async (e) => {
     e.preventDefault()
+    console.log(!updateOpen)
+    const response = await axios.put(
+      "https://flask-issue-tracker.andrew-horn-portfolio.life/api/issues/apitest",
+      {
+        _id: updateId,
+        issue_title: updateTitle,
+        issue_text: updateText,
+        created_by: updateCreatedBy,
+        assigned_to: updateAssignedTo,
+        status_text: updateStatusText,
+        open: !updateOpen
+      }
+    )
+    setUpdateId('')
+    setUpdateTitle("")
+    setUpdateText("")
+    setUpdateCreatedBy("")
+    setUpdateAssignedTo("")
+    setUpdateStatusText("")
+    setUpdateOpen(false)
+    setPutResponse(JSON.stringify(response.data))
   }
 
   const handleDeleteIssue = async (e) => {
     e.preventDefault()
+    const response = await axios.delete(
+      `https://flask-issue-tracker.andrew-horn-portfolio.life/api/issues/apitest?_id=${deleteId}`
+    )
+    setDeleteId("")
+    setDeleteResponse(JSON.stringify(response.data))
   }
 
   return (
@@ -173,13 +201,13 @@ const IndexPage = () => {
             Submit Issue
           </button>
         </form>
-        {postResult && (
+        {postResponse && (
           <div>
             <br />
             <p>
               <b>Response:</b>
             </p>
-            <code>{postResult}</code>
+            <code>{postResponse}</code>
           </div>
         )}
         <br />
@@ -254,8 +282,18 @@ const IndexPage = () => {
             Check to close issue
           </label>
           <br />
-          <button type="submit">Submit Issue</button>
+          <button type="submit" onClick={handlePutIssue}>Submit Issue</button>
         </form>
+        {putResponse && (
+          <div>
+            <br />
+            <p>
+              <b>Response:</b>
+            </p>
+            <code>{putResponse}</code>
+          </div>
+        )}
+        <br />
         <br />
         <h3>
           Delete issue on <i>apitest</i>
@@ -271,52 +309,20 @@ const IndexPage = () => {
             onChange={(e) => setDeleteId(e.target.value)}
           />
           <br />
-          <button type="submit">Delete Issue</button>
+          <button type="submit" onClick={handleDeleteIssue}>Delete Issue</button>
         </form>
-        <code id="jsonResult"></code>
+        {deleteResponse && (
+          <div>
+            <br />
+            <p>
+              <b>Response:</b>
+            </p>
+            <code>{deleteResponse}</code>
+          </div>
+        )}
+        <br />
       </div>
       <hr style={{ margin: "50px", marginTop: "200px" }} />
-      {/* <!-- Your web-app is https, so your scripts need to be too -->
-  <script src="https://code.jquery.com/jquery-2.2.1.min.js"
-          integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
-          crossorigin="anonymous"></script>
-  <script>
-    $(function() {
-      $('#testForm').submit(function(e) {
-        $.ajax({
-          url: '/api/issues/apitest',
-          type: 'post',
-          data: $('#testForm').serialize(),
-          success: function(data) {
-            $('#jsonResult').text(JSON.stringify(data));
-          }
-        });
-        e.preventDefault();
-      });
-      $('#testForm2').submit(function(e) {
-        $.ajax({
-          url: '/api/issues/apitest',
-          type: 'put',
-          data: $('#testForm2').serialize(),
-          success: function(data) {
-            $('#jsonResult').text(JSON.stringify(data));
-          }
-        });
-        e.preventDefault();
-      });
-      $('#testForm3').submit(function(e) {
-        $.ajax({
-          url: '/api/issues/apitest',
-          type: 'delete',
-          data: $('#testForm3').serialize(),
-          success: function(data) {
-            $('#jsonResult').text(JSON.stringify(data));
-          }
-        });
-        e.preventDefault();
-      });
-    });
- </script> */}
     </div>
   )
 }

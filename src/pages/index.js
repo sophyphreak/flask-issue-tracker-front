@@ -122,7 +122,6 @@ const IndexPage = () => {
             <code>/api/issues/{"{project}"}?open=false</code>). I can pass along
             as many fields/values as I want.
           </li>
-          <li>All 11 functional tests are complete and passing.</li>
         </ol>
         <br />
         <h3>Example get usage:</h3>

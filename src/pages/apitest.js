@@ -3,7 +3,7 @@ import { Link } from "gatsby"
 import axios from 'axios'
 import "./style.css"
 
-const SecondPage = () => {
+const Apitest = () => {
   const [issueList, setIssueList] = useState("")
 
   const [newTitle, setNewTitle] = useState("")
@@ -152,4 +152,4 @@ const SecondPage = () => {
   )
 }
 
-export default SecondPage
+export default Apitest
